@@ -31,7 +31,7 @@ public class ContactListAdapter extends ArrayAdapter<Contact> {
 
         TextView name = (TextView) convertView.findViewById(R.id.firstName);
 
-
+    //heid
         name.setText(contact.firstName);
        // name.setText(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
