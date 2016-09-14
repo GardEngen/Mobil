@@ -24,7 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     // The ListView
-    private ListView lstNames;
+    private ListView contactList;
 
     // Request code for READ_CONTACTS. It can be any number > 0.
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Find the list view
-        this.lstNames = (ListView) findViewById(R.id.lstNames);
+        this.contactList = (ListView) findViewById(R.id.contactList);
 
         // Read and show the contacts
         showContacts();
@@ -70,10 +70,12 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
             //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
+
             // Android version is lesser than 6.0 or the permission is already granted.
-            List<String> contacts = getContactNames();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, contacts);
-            lstNames.setAdapter(adapter);
+            List contacts = getContactNames();
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, contacts);
+            contactList.setAdapter(adapter);
+
         }
     }
 
@@ -82,27 +84,30 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return a list of names.
      */
-    private List<String> getContactNames() {
+    private List getContactNames() {
         List<String> contacts = new ArrayList<>();
         // Get the ContentResolver
         ContentResolver cr = getContentResolver();
         // Get the Cursor of all the contacts
         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        while (cursor.moveToNext()) {
 
-        // Move the cursor to first. Also check whether the cursor is empty or not.
-        if (cursor.moveToFirst()) {
-            // Iterate through the cursor
-            do {
-                // Get the contacts name
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                contacts.add(name);
-            } while (cursor.moveToNext());
-        }
-        // Close the curosor
-        cursor.close();
 
+            //Sjekker om kontakt har et tlf nummer
+            String hasNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER));
+            String contactName = "";
+            if(hasNumber.equals("1")) {
+                contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+
+          //fjerner alle e-mailer fra liste
+            if (!contactName.contains("@")) {
+                contacts.add(contactName);
+            }
+        }}
         return contacts;
     }
+
+
 
 
     @Override
