@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,11 +25,9 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.contact_layout,parent,false);
         }
 
+        TextView nameView = (TextView)convertView.findViewById(R.id.contactName);
 
-        //ImageView person = (ImageView)convertView.findViewById(R.id.imageView);
-        TextView messageView = (TextView)convertView.findViewById(R.id.textView);
-
-        messageView.setText(contact.getName());
+        nameView.setText(contact.getName());
 
         return convertView;
     }

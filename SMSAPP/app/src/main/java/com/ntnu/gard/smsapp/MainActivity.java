@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -114,13 +113,10 @@ public class MainActivity extends AppCompatActivity {
             if(hasNumber.equals("1")) {
                 contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
-          //fjerner alle e-mailer fra liste
-            if (!contactName.contains("@")) {
                 Contact contact = new Contact(contactName);
                 contacts.add(contact);
 
 
-            }
 
         }}
         cursor.close();

@@ -1,6 +1,9 @@
 package com.ntnu.gard.smsapp;
 
+import android.net.Uri;
+
 import java.io.Serializable;
+
 
 /**
  * Created by Gard on 14.09.2016.
@@ -8,7 +11,7 @@ import java.io.Serializable;
 
 public class Contact implements Serializable {
 
-    String name;
+    private String name;
 
     public Contact(String name){
         this.name = name;
@@ -22,4 +25,5 @@ public class Contact implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 }
