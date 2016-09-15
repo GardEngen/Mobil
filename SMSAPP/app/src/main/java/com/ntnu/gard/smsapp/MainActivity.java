@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -73,11 +74,25 @@ public class MainActivity extends AppCompatActivity {
 
             // Android version is lesser than 6.0 or the permission is already granted.
             List contacts = getContactNames();
-            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, contacts);
-            contactList.setAdapter(adapter);
+            ContactAdapter cAdapter = new ContactAdapter(this, contacts);
+            contactList.setAdapter(cAdapter);
+            contactList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    Toast.makeText(MainActivity.this, "Hei", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+
 
         }
     }
+
+
+
+
 
     /**
      * Read the name of all the contacts.
@@ -85,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
      * @return a list of names.
      */
     private List getContactNames() {
-        List<String> contacts = new ArrayList<>();
+        List<Contact> contacts = new ArrayList<>();
         // Get the ContentResolver
         ContentResolver cr = getContentResolver();
         // Get the Cursor of all the contacts
@@ -101,9 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
           //fjerner alle e-mailer fra liste
             if (!contactName.contains("@")) {
-                contacts.add(contactName);
+                Contact contact = new Contact(contactName);
+                contacts.add(contact);
+
+
             }
+
         }}
+        cursor.close();
         return contacts;
     }
 

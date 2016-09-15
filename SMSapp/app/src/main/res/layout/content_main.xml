@@ -15,6 +15,9 @@
 
     <ListView
         android:id="@+id/contactList"
+
+        android:descendantFocusability="blocksDescendants"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>
