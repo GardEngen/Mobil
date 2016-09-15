@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                    Toast.makeText(MainActivity.this, "Hei", Toast.LENGTH_SHORT).show();
+                    setContentView(R.layout.activity_message);
+                    //Toast.makeText(MainActivity.this, "Hei", Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -88,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
 
     /**
      * Read the name of all the contacts.
