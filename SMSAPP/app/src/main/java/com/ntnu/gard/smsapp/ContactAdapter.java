@@ -22,7 +22,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         Contact contact = getItem(position);
 
         if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.contact_layout,parent,false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.contactlist_item_layout,parent,false);
         }
 
         TextView nameView = (TextView)convertView.findViewById(R.id.contactName);
