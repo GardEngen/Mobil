@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
+    public static final String CONVERSATION_ID = "conversationid";
 
     private ListView messageList;
     private List<Message> messages;
@@ -34,8 +35,17 @@ public class ChatActivity extends AppCompatActivity {
         Intent i = getIntent();
         setTitle(i.getStringExtra("contactName"));
 
-        messages = new ArrayList<>();
-        this.sendButton = (Button) findViewById(R.id.sendButton);
+        //lagringgreier :D:D:D
+        int conversationId = i.getIntExtra(CONVERSATION_ID,-1);
+        DomainSingleton service = DomainSingleton.getSingleton(this);
+        if(conversationId != -1) {
+            messages = service.getConversation(conversationId);
+        }  else {
+            messages = service.createConversation();
+            conversationId = service.getData().size() -1; // OBS not threadsafe
+        }
+
+            this.sendButton = (Button) findViewById(R.id.sendButton);
         // Find the list view
         this.messageList = (ListView) findViewById(R.id.messageListView);
 
