@@ -33,7 +33,7 @@ public class ContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-
+        setTitle("Contacts");
 
         // Find the list view
         this.contactList = (ListView) findViewById(R.id.contactList);
@@ -44,6 +44,8 @@ public class ContactActivity extends AppCompatActivity {
 //-------------------------------------------------------------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
@@ -62,7 +64,7 @@ public class ContactActivity extends AppCompatActivity {
 
             // Android version is lesser than 6.0 or the permission is already granted.
             List contacts = getContactNames();
-            ContactAdapter cAdapter = new ContactAdapter(this, contacts);
+            final ContactAdapter cAdapter = new ContactAdapter(this, contacts);
             contactList.setAdapter(cAdapter);
             contactList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -72,6 +74,10 @@ public class ContactActivity extends AppCompatActivity {
                     //Toast.makeText(ContactActivity.this, "Hei", Toast.LENGTH_SHORT).show();
     //GJØR NOEEEEE
                     Intent i = new Intent(getApplicationContext(), ChatActivity.class);
+
+                    //Få tak i navnet på kontakten man har valgt, og send den videre til chatActivity
+                    String contactName = cAdapter.getItem(position).getName();
+                    i.putExtra("contactName", contactName);
                     startActivity(i);
 
                 }
@@ -127,7 +133,13 @@ public class ContactActivity extends AppCompatActivity {
         }
     }
 
+    //når man trykker på tilbakepila
+    public void onBackPressed()
+    {
+        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
 
+    }
 
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
@@ -144,11 +156,16 @@ public class ContactActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+
+                return true;
+
+            case R.id.action_settings:
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
