@@ -8,10 +8,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private List <Message> conversationList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +38,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ListView listView = (ListView)findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.listView);
+
+
+        int conversationSize = DomainSingleton.getSingleton(this).getData().size();
+        if (conversationSize > 0) {
+            System.out.println("CONVERSATIONSIZE" + conversationSize);
+
+
+            ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    DomainSingleton.getSingleton(this).getAllConversationNames() );
+
+
+            listView.setAdapter(namesAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Intent i = new Intent(getApplicationContext(), ChatActivity.class);
+                   // i.putExtra("conversationStatus", "old");
+                    i.putExtra("contactName", "Kontakten du vil snakke med");
+                    startActivity(i);
+
+                }
+            });
+
+        }
+
     }
 
     @Override

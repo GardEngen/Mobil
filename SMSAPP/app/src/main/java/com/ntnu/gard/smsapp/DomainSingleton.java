@@ -39,4 +39,34 @@ public class DomainSingleton {
         getData().add(result);
         return result;
     }
+    //ikke i bruk enda
+    public synchronized String getContactName(int conversationId)
+    {
+        Message message1 = getData().get(conversationId).get(0);
+        String contactName = message1.getName();
+        System.out.println("DETTE ER CONVERSATION ID TIL " +
+               contactName + " : " + message1.getConversationId());
+        return contactName;
+
+    }
+    //Får tak i den første meldingen i en samtale.
+    public synchronized Message getFirstMessageInConversation(int dataIndex)
+    {
+        Message firstMessage = getData().get(dataIndex).get(0);
+        return firstMessage;
+    }
+    //returnerer en liste med alle personen man har en samtale med
+    public synchronized List<String> getAllConversationNames()
+    {
+        List<String>allnames = new ArrayList<String>();
+        for(int i = 0; getData().size() > i; i++)
+        {
+            String name = getFirstMessageInConversation(i).getName();
+            if(!allnames.contains(name)) {
+                allnames.add(name);
+            }
+        }
+       return allnames;
+    }
+
 }

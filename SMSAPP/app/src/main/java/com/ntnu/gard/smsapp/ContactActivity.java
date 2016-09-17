@@ -72,12 +72,13 @@ public class ContactActivity extends AppCompatActivity {
                                         long id) {
                    // setContentView(R.layout.activity_chat);
                     //Toast.makeText(ContactActivity.this, "Hei", Toast.LENGTH_SHORT).show();
-    //GJØR NOEEEEE
+
                     Intent i = new Intent(getApplicationContext(), ChatActivity.class);
 
                     //Få tak i navnet på kontakten man har valgt, og send den videre til chatActivity
                     String contactName = cAdapter.getItem(position).getName();
                     i.putExtra("contactName", contactName);
+                 //   i.putExtra("conversationStatus", "new");
                     startActivity(i);
 
                 }

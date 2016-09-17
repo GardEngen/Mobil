@@ -21,6 +21,10 @@ public class ChatActivity extends AppCompatActivity {
     private ListView messageList;
     private List<Message> messages;
     private Button sendButton;
+    private String contactName;
+    private int conversationId;
+    private String conversationStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,21 +37,35 @@ public class ChatActivity extends AppCompatActivity {
 
         //får tak i kontaktens navn og bruk det som chattittel
         Intent i = getIntent();
-        setTitle(i.getStringExtra("contactName"));
+        contactName = i.getStringExtra("contactName");
+        //conversationStatus = i.getStringExtra("conversationStatus");
+        setTitle(contactName);
 
-        //lagringgreier :D:D:D
-        int conversationId = i.getIntExtra(CONVERSATION_ID,-1);
-        DomainSingleton service = DomainSingleton.getSingleton(this);
-        if(conversationId != -1) {
-            messages = service.getConversation(conversationId);
-        }  else {
-            messages = service.createConversation();
-            conversationId = service.getData().size() -1; // OBS not threadsafe
-        }
+     //   if( conversationStatus.equals("new")) {
+
+
+
+        //lagringgreier
+
+            conversationId = i.getIntExtra(CONVERSATION_ID, -1);
+            DomainSingleton service = DomainSingleton.getSingleton(this);
+            if (conversationId != -1) {
+                messages = service.getConversation(conversationId);
+            } else {
+                messages = service.createConversation();
+                conversationId = service.getData().size() - 1; // OBS not threadsafe
+            }
 
             this.sendButton = (Button) findViewById(R.id.sendButton);
-        // Find the list view
-        this.messageList = (ListView) findViewById(R.id.messageListView);
+            // Find the list view
+            this.messageList = (ListView) findViewById(R.id.messageListView);
+       // }
+        //else
+        //{
+          //  Toast.makeText(this, "HEIIIIIIHOOO", Toast.LENGTH_SHORT).show();
+
+        //}
+
 
         showMessages();
 
@@ -79,7 +97,7 @@ public class ChatActivity extends AppCompatActivity {
         String newMessageText = messageText.getText().toString();
 
         if(!newMessageText.equals("")) {
-            Message newMessage = new Message(newMessageText);
+            Message newMessage = new Message(newMessageText,contactName,conversationId);
             messages.add(newMessage);
             messageText.setText("");
         }
