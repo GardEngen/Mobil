@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -31,8 +30,6 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
 
 
         //får tak i kontaktens navn og bruk det som chattittel
@@ -60,17 +57,15 @@ public class ChatActivity extends AppCompatActivity {
 
 
         showMessages();
-            System.out.println("CONVERSATIONiD ER:  " + conversationId);
 
-            }
+    }
 
     //viser alle meldingene som er lagt til i messages
-    public void showMessages()
-    {
+    public void showMessages() {
         MessageListAdapter mAdapter = new MessageListAdapter(this, messages);
         messageList.setAdapter(mAdapter);
 
-        sendButton.setOnClickListener( new View.OnClickListener() {
+        sendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -81,15 +76,14 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    private void createMessage()
-    {
+    private void createMessage() {
 
         EditText messageText = (EditText) findViewById(R.id.messageText);
 
         String newMessageText = messageText.getText().toString();
 
-        if(!newMessageText.equals("")) {
-            Message newMessage = new Message(newMessageText,contactName,conversationId);
+        if (!newMessageText.equals("")) {
+            Message newMessage = new Message(newMessageText, contactName, conversationId);
             messages.add(newMessage);
             messageText.setText("");
         }
@@ -98,16 +92,13 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     //når man trykker på tilbakepila
-    public void onBackPressed()
-    {
-     Intent i = new Intent(getApplicationContext(),ContactActivity.class);
-        startActivity(i);
+    public void onBackPressed() {
+
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+
 
     }
-
-
-
-
 
 
     @Override
@@ -136,7 +127,6 @@ public class ChatActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

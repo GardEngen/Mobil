@@ -1,4 +1,5 @@
 package com.ntnu.gard.smsapp;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -23,13 +24,13 @@ public class MessageListAdapter extends ArrayAdapter<Message> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = getItem(position);
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.messagelist_item_layout,parent,false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.messagelist_item_layout, parent, false);
         }
 
 
         //ImageView person = (ImageView)convertView.findViewById(R.id.imageView);
-        TextView messageView = (TextView)convertView.findViewById(R.id.textView);
+        TextView messageView = (TextView) convertView.findViewById(R.id.textView);
 
         messageView.setText(message.getMessage());
 

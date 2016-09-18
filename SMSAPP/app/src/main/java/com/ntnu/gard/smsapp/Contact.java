@@ -13,7 +13,7 @@ public class Contact implements Serializable {
 
     private String name;
 
-    public Contact(String name){
+    public Contact(String name) {
         this.name = name;
 
     }

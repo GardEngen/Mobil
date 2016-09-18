@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
+    public static final String CONVERSATION_ID = "conversationid";
+    public static final String CONTACT_NAME = "contactName";
 
     // The ListView
     private ListView contactList;
@@ -70,19 +72,25 @@ public class ContactActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                   // setContentView(R.layout.activity_chat);
-                    //Toast.makeText(ContactActivity.this, "Hei", Toast.LENGTH_SHORT).show();
 
                     Intent i = new Intent(getApplicationContext(), ChatActivity.class);
 
                     //Få tak i navnet på kontakten man har valgt, og send den videre til chatActivity
                     String contactName = cAdapter.getItem(position).getName();
-                    i.putExtra("contactName", contactName);
-                    startActivity(i);
+                    if(!(DomainSingleton.getSingleton(ContactActivity.this).getAllConversationNames().contains(contactName))) {
+                        i.putExtra(CONTACT_NAME, contactName);
+                        startActivity(i);
+                    }
+                    else
+                    {
+                        int conversationId = DomainSingleton.getSingleton(ContactActivity.this).getConversationIdByContactName(contactName);
+                        i.putExtra(CONVERSATION_ID, conversationId);
+                        i.putExtra(CONTACT_NAME, contactName);
+                        startActivity(i);
+                    }
 
                 }
             });
-
 
 
         }
@@ -105,19 +113,18 @@ public class ContactActivity extends AppCompatActivity {
             //Sjekker om kontakt har et tlf nummer
             String hasNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER));
             String contactName = "";
-            if(hasNumber.equals("1")) {
+            if (hasNumber.equals("1")) {
                 contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
                 Contact contact = new Contact(contactName);
                 contacts.add(contact);
 
 
-        }}
+            }
+        }
         cursor.close();
         return contacts;
     }
-
-
 
 
     @Override
@@ -134,9 +141,8 @@ public class ContactActivity extends AppCompatActivity {
     }
 
     //når man trykker på tilbakepila
-    public void onBackPressed()
-    {
-        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
 
     }
@@ -156,7 +162,6 @@ public class ContactActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
 
         switch (item.getItemId()) {
             case android.R.id.home:

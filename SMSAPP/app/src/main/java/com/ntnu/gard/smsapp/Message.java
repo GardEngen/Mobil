@@ -6,21 +6,21 @@ import java.util.Date;
 
 
 public class Message implements Serializable {
-    String name;
+    String contact;
     String message;
     Date timestamp;
     Integer conversationId;
 
-    public Message(String message, String name, int conversationId) {
-        this.name = name;
+    public Message(String message, String contact, int conversationId) {
+        this.contact = contact;
         this.message = message;
-       // this.timestamp = new Date();
+        // this.timestamp = new Date();
         this.conversationId = conversationId;
 
     }
 
-    public String getName() {
-        return name;
+    public String getContact() {
+        return contact;
     }
 
     public String getMessage() {
@@ -30,7 +30,10 @@ public class Message implements Serializable {
     public Date getTimestamp() {
         return timestamp;
     }
-    public Integer getConversationId(){return conversationId;}
+
+    public Integer getConversationId() {
+        return conversationId;
+    }
 
 
 }
