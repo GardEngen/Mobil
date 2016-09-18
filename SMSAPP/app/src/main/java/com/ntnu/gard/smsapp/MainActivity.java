@@ -11,14 +11,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String CONVERSATION_ID = "conversationid";
+    public static final String CONTACT_NAME = "contactName";
 
-
-    private List <Message> conversationList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
         int conversationSize = DomainSingleton.getSingleton(this).getData().size();
         if (conversationSize > 0) {
-            System.out.println("CONVERSATIONSIZE" + conversationSize);
 
 
-            ArrayAdapter<String> namesAdapter = new ArrayAdapter<String>(
+
+            final ArrayAdapter<String> namesAdapter = new ArrayAdapter<>(
                     this,
                     android.R.layout.simple_list_item_1,
                     DomainSingleton.getSingleton(this).getAllConversationNames() );
@@ -57,9 +55,18 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    //får tak i navnet til kontakten man har valgt
+                    String contactName = namesAdapter.getItem(position);
+
+                    //får tak i conversationId til kontakten man har valgt fra listen
+                    Message tempMessage = DomainSingleton.getSingleton(MainActivity.this).getFirstMessageInConversation(position);
+                    int conversationId = tempMessage.conversationId;
+
+                            // int conversationId = getConversationIDWithArrayIndex(position);
+
                     Intent i = new Intent(getApplicationContext(), ChatActivity.class);
-                   // i.putExtra("conversationStatus", "old");
-                    i.putExtra("contactName", "Kontakten du vil snakke med");
+                    i.putExtra(CONTACT_NAME, contactName);
+                    i.putExtra(CONVERSATION_ID,conversationId);
                     startActivity(i);
 
                 }
@@ -67,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+
+    private int getConversationIDWithArrayIndex(int index)
+    {
+        int conversationId;
+        Message tempMessage = DomainSingleton.getSingleton(MainActivity.this).getFirstMessageInConversation(index);
+        conversationId = tempMessage.getConversationId();
+        return conversationId;
     }
 
     @Override

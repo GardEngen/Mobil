@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -23,7 +22,6 @@ public class ChatActivity extends AppCompatActivity {
     private Button sendButton;
     private String contactName;
     private int conversationId;
-    private String conversationStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,40 +33,34 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+
+
         //får tak i kontaktens navn og bruk det som chattittel
         Intent i = getIntent();
         contactName = i.getStringExtra("contactName");
-        //conversationStatus = i.getStringExtra("conversationStatus");
         setTitle(contactName);
 
-     //   if( conversationStatus.equals("new")) {
+
+        //hvis det ikke finnes en conversation blir conversationid automatisk såtte til 0
+
+        conversationId = i.getIntExtra(CONVERSATION_ID, -1);
+        DomainSingleton service = DomainSingleton.getSingleton(this);
+        if (conversationId != -1) {
+            messages = service.getConversation(conversationId);
 
 
+        } else {
+            messages = service.createConversation();
+            conversationId = service.getData().size() - 1; // OBS not threadsafe
+        }
 
-        //lagringgreier
-
-            conversationId = i.getIntExtra(CONVERSATION_ID, -1);
-            DomainSingleton service = DomainSingleton.getSingleton(this);
-            if (conversationId != -1) {
-                messages = service.getConversation(conversationId);
-            } else {
-                messages = service.createConversation();
-                conversationId = service.getData().size() - 1; // OBS not threadsafe
-            }
-
-            this.sendButton = (Button) findViewById(R.id.sendButton);
-            // Find the list view
-            this.messageList = (ListView) findViewById(R.id.messageListView);
-       // }
-        //else
-        //{
-          //  Toast.makeText(this, "HEIIIIIIHOOO", Toast.LENGTH_SHORT).show();
-
-        //}
+        this.sendButton = (Button) findViewById(R.id.sendButton);
+        // Find the list view
+        this.messageList = (ListView) findViewById(R.id.messageListView);
 
 
         showMessages();
-
+            System.out.println("CONVERSATIONiD ER:  " + conversationId);
 
             }
 

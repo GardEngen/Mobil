@@ -78,7 +78,6 @@ public class ContactActivity extends AppCompatActivity {
                     //Få tak i navnet på kontakten man har valgt, og send den videre til chatActivity
                     String contactName = cAdapter.getItem(position).getName();
                     i.putExtra("contactName", contactName);
-                 //   i.putExtra("conversationStatus", "new");
                     startActivity(i);
 
                 }
