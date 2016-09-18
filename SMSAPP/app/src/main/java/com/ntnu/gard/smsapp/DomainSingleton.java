@@ -44,6 +44,7 @@ public class DomainSingleton {
 
     //Får tak i den første meldingen i en samtale.
     public synchronized Message getFirstMessageInConversation(int dataIndex) {
+
         Message firstMessage = getData().get(dataIndex).get(0);
         return firstMessage;
     }
