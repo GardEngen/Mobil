@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class SearchActivity extends AppCompatActivity {
     private void doPresentResult(List<String> results) {
         arrayAdapter.addAll(results);
         arrayAdapter.notifyDataSetChanged();
+
     }
 
 }
