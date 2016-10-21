@@ -1,0 +1,5 @@
+Chatserver/domain/Conversation.class
+Chatserver/domain/Contact.class
+Chatserver/ChatService.class
+Chatserver/RestConfiguration.class
+Chatserver/domain/Message.class
